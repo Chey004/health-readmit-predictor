@@ -31,6 +31,7 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.5rem;
+      transition: transform var(--transition-slow);
     }
 
     .dark-mode-toggle {
@@ -44,6 +45,11 @@
       cursor: pointer;
       border-radius: 5px;
       z-index: 100;
+      transition: background-color var(--transition-slow);
+    }
+
+    .dark-mode-toggle:hover {
+      background-color: #357ab8;
     }
 
     .predictor-form,
@@ -52,14 +58,24 @@
       border-radius: 8px;
       margin-top: 2rem;
       padding: 2rem;
+      transition: background-color var(--transition-slow);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .form-control {
       display: block;
       width: 100%;
-      margin-bottom: 1rem;
       padding: 0.5rem;
-      font-size: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: border-color var(--transition-slow), box-shadow var(--transition-slow);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
+      outline: none;
     }
 
     .btn {
@@ -67,9 +83,14 @@
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
-      font-size: 1rem;
       cursor: pointer;
       border-radius: 4px;
+      transition: background-color var(--transition-slow), transform 0.2s ease-in-out;
+    }
+
+    .btn:hover {
+      background-color: #357ab8;
+      transform: scale(1.05);
     }
 
     .invalid {
@@ -79,6 +100,7 @@
     canvas {
       max-width: 100%;
       height: auto;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -119,11 +141,8 @@
     const darkToggle = document.querySelector('.dark-mode-toggle');
 
     darkToggle.addEventListener('click', () => {
-      if (document.documentElement.hasAttribute('data-theme')) {
-        document.documentElement.removeAttribute('data-theme');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
+      const root = document.documentElement;
+      root.toggleAttribute('data-theme');
     });
 
     function setViewportHeight() {
@@ -145,7 +164,7 @@
       }
     });
 
-    let chartInstance = null;
+    let predictionChart = null;
 
     riskForm.addEventListener('submit', async function (e) {
       e.preventDefault();
@@ -168,11 +187,9 @@
 
         predictionOutput.textContent = `Predicted readmission risk: ${result.prediction}`;
 
-        if (chartInstance) {
-          chartInstance.destroy();
-        }
+        if (predictionChart) predictionChart.destroy();
 
-        chartInstance = new Chart(chartCanvas, {
+        predictionChart = new Chart(chartCanvas, {
           type: 'bar',
           data: {
             labels: ['Risk Level'],
@@ -184,6 +201,10 @@
           },
           options: {
             responsive: true,
+            animation: {
+              duration: 1000,
+              easing: 'easeOutBounce'
+            },
             scales: {
               y: { beginAtZero: true, max: 1 }
             }
