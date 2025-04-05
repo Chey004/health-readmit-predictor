@@ -1,261 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Previous meta tags remain the same -->
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Health Readmit Predictor</title>
   <style>
-    /* Previous CSS variables and base styles remain the same */
+    :root {
+      --primary-color: #4a90e2;
+      --primary-light: #d0e6ff;
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --transition-slow: 0.3s ease;
+    }
 
-    /* Enhanced Responsive Grid System */
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #ffffff;
+      --primary-light: #333;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color var(--transition-slow), color var(--transition-slow);
+    }
+
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    /* Optimized Hero Section */
-    .hero {
-      padding: 4rem 0;
-      gap: 3rem;
-      min-height: auto;
-    }
-
-    @media (min-width: 768px) {
-      .hero {
-        min-height: calc(100vh - 74px);
-        padding: 6rem 0;
-      }
-    }
-
-    .hero-content {
-      order: 2;
-      text-align: center;
-    }
-
-    .hero-image {
-      order: 1;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    @media (min-width: 768px) {
-      .hero-content {
-        order: 1;
-        text-align: left;
-      }
-      .hero-image {
-        order: 2;
-      }
-    }
-
-    /* Enhanced Mobile Menu */
-    .mobile-menu-toggle {
-      display: block;
-      z-index: 101;
-    }
-
-    nav ul {
+    .dark-mode-toggle {
       position: fixed;
-      top: 0;
-      left: -100%;
-      height: 100vh;
-      background: white;
-      flex-direction: column;
-      padding: 6rem 2rem;
-      transition: var(--transition-slow);
-      width: 80%;
-      max-width: 300px;
-    }
-
-    nav ul.show {
-      left: 0;
-      box-shadow: 2rem 0 4rem rgba(0,0,0,0.1);
-    }
-
-    nav ul li {
-      padding: 1rem 0;
-      border-bottom: 1px solid var(--primary-light);
-    }
-
-    /* Improved Form Layout */
-    .predictor-content {
-      flex-direction: column;
-      gap: 2rem;
+      top: 1rem;
+      right: 1rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      z-index: 100;
     }
 
     .predictor-form,
     .predictor-results {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
+      background-color: var(--primary-light);
+      border-radius: 8px;
+      margin-top: 2rem;
       padding: 2rem;
     }
 
-    @media (min-width: 992px) {
-      .predictor-content {
-        flex-direction: row;
-        gap: 3rem;
-      }
-      .predictor-form,
-      .predictor-results {
-        max-width: none;
-      }
-    }
-
-    /* Touch-friendly Controls */
     .form-control {
+      display: block;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
       font-size: 1rem;
-      padding: 1rem;
-    }
-
-    @media (min-width: 768px) {
-      .form-control {
-        font-size: 1.05rem;
-        padding: 1.2rem;
-      }
     }
 
     .btn {
-      min-width: 120px;
-      padding: 1rem 2rem;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 4px;
     }
 
-    /* Enhanced Features Grid */
-    .features-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+    .invalid {
+      border: 2px solid red;
     }
 
-    .feature-card {
-      padding: 1.5rem;
-    }
-
-    @media (min-width: 768px) {
-      .features-grid {
-        gap: 2rem;
-      }
-      .feature-card {
-        padding: 2rem;
-      }
-    }
-
-    /* Optimized Typography */
-    .hero-title {
-      font-size: clamp(2rem, 6vw, 3rem);
-      line-height: 1.3;
-    }
-
-    .hero-description {
-      font-size: clamp(1rem, 2.5vw, 1.1rem);
-      margin-bottom: 2.5rem;
-    }
-
-    .section-title {
-      font-size: clamp(1.75rem, 4vw, 2.25rem);
-    }
-
-    /* Better Mobile Footer */
-    .footer-content {
-      flex-direction: column;
-      text-align: center;
-      gap: 2rem;
-    }
-
-    .footer-section {
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    .social-links {
-      justify-content: center;
-    }
-
-    @media (min-width: 768px) {
-      .footer-content {
-        flex-direction: row;
-        text-align: left;
-        gap: 3rem;
-      }
-      .footer-section {
-        max-width: none;
-      }
-    }
-
-    /* Performance Optimizations */
-    .hero-img,
-    .feature-icon {
-      will-change: transform;
-    }
-
-    /* Enhanced Animation Timing */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
+    canvas {
+      max-width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
-  <!-- Body content remains the same as previous optimized version -->
+  <button class="dark-mode-toggle" aria-label="Toggle dark mode">Toggle Dark Mode</button>
 
+  <main class="container" role="main">
+    <section class="predictor-content" aria-labelledby="predictor-title">
+      <div class="predictor-form" id="predictor-form-section">
+        <h2 id="predictor-title">Submit Prediction Data</h2>
+        <form id="riskForm" aria-describedby="form-instructions">
+          <p id="form-instructions">Please fill in all fields to receive a readmission prediction.</p>
+          <label for="age">Age:</label>
+          <input type="number" name="age" id="age" class="form-control" required>
+          <label for="gender">Gender:</label>
+          <select name="gender" id="gender" class="form-control" required>
+            <option value="">Select...</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          <button type="submit" class="btn">Predict</button>
+        </form>
+      </div>
+
+      <div class="predictor-results">
+        <h2>Prediction Result</h2>
+        <div id="prediction-output">Awaiting input...</div>
+        <canvas id="predictionChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Enhanced Touch Handling
-    let touchStartX = 0;
-    const TOUCH_THRESHOLD = 50;
+    const riskForm = document.getElementById('riskForm');
+    const predictionOutput = document.getElementById('prediction-output');
+    const chartCanvas = document.getElementById('predictionChart');
+    const darkToggle = document.querySelector('.dark-mode-toggle');
 
-    document.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', e => {
-      const touchEndX = e.changedTouches[0].screenX;
-      const deltaX = touchEndX - touchStartX;
-
-      if (Math.abs(deltaX) > TOUCH_THRESHOLD) {
-        if (deltaX > 0 && navMenu.classList.contains('show')) {
-          navMenu.classList.remove('show');
-          mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        }
-      }
-    });
-
-    // Improved Mobile Menu Handling
-    function handleMenuState() {
-      if (navMenu.classList.contains('show')) {
-        document.body.style.overflow = 'hidden';
-        mobileMenuToggle.setAttribute('aria-expanded', 'true');
+    darkToggle.addEventListener('click', () => {
+      if (document.documentElement.hasAttribute('data-theme')) {
+        document.documentElement.removeAttribute('data-theme');
       } else {
-        document.body.style.overflow = '';
-        mobileMenuToggle.setAttribute('aria-expanded', 'false');
+        document.documentElement.setAttribute('data-theme', 'dark');
       }
-    }
-
-    mobileMenuToggle.addEventListener('click', () => {
-      handleMenuState();
     });
 
-    // Viewport Height Fix for Mobile
     function setViewportHeight() {
       let vh = window.innerHeight * 0.01;
       document.documentElement.style.setProperty('--vh', `${vh}px`);
     }
-
     window.addEventListener('resize', setViewportHeight);
     setViewportHeight();
 
-    // Enhanced Form Validation
     riskForm.addEventListener('input', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
         e.target.classList.toggle('invalid', !e.target.checkValidity());
       }
     });
 
-    // Prevent Zoom on Input Focus
     document.documentElement.addEventListener('touchstart', function(event) {
       if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
         event.target.style.fontSize = '16px';
+      }
+    });
+
+    let chartInstance = null;
+
+    riskForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(riskForm);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      try {
+        const response = await fetch('http://localhost:8000/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+        const result = await response.json();
+
+        predictionOutput.textContent = `Predicted readmission risk: ${result.prediction}`;
+
+        if (chartInstance) {
+          chartInstance.destroy();
+        }
+
+        chartInstance = new Chart(chartCanvas, {
+          type: 'bar',
+          data: {
+            labels: ['Risk Level'],
+            datasets: [{
+              label: 'Probability',
+              data: [result.probability],
+              backgroundColor: '#4a90e2'
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: { beginAtZero: true, max: 1 }
+            }
+          }
+        });
+
+      } catch (error) {
+        predictionOutput.textContent = 'Prediction failed. Please try again.';
+        console.error('Prediction error:', error);
       }
     });
   </script>
