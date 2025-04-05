@@ -121,6 +121,12 @@
             <option value="Male">Male</option>
             <option value="Female">Female</option>
           </select>
+          <label for="bmi">BMI:</label>
+          <input type="number" name="bmi" id="bmi" class="form-control" step="0.1" required>
+          <label for="num_visits">Number of Visits:</label>
+          <input type="number" name="num_visits" id="num_visits" class="form-control" required>
+          <label for="comorbidity">Comorbidity Score (0-10):</label>
+          <input type="number" name="comorbidity" id="comorbidity" class="form-control" min="0" max="10" step="1" required>
           <button type="submit" class="btn">Predict</button>
         </form>
       </div>
