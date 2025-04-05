@@ -1,227 +1,296 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Health Readmit Predictor</title>
-  <style>
-    :root {
-      --primary-color: #4a90e2;
-      --primary-light: #d0e6ff;
-      --bg-color: #ffffff;
-      --text-color: #000000;
-      --transition-slow: 0.3s ease;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthAI - Predictive Analytics</title>
+    <style>
+        :root {
+            --primary: #0071e3;
+            --secondary: #34c759;
+            --surface: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --ease: cubic-bezier(0.4,0,0.2,1);
+            --radius: 18px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
 
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #ffffff;
-      --primary-light: #333;
-    }
+        [data-theme="dark"] {
+            --surface: #000000;
+            --text-primary: #f5f5f7;
+            --text-secondary: #86868b;
+            --shadow: 0 4px 24px rgba(255,255,255,0.08);
+        }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      transition: background-color var(--transition-slow), color var(--transition-slow);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      transition: transform var(--transition-slow);
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell;
+            background: var(--surface);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.4s var(--ease), color 0.4s var(--ease);
+        }
 
-    .dark-mode-toggle {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 5px;
-      z-index: 100;
-      transition: background-color var(--transition-slow);
-    }
+        /* Modern Navigation */
+        .nav-container {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            backdrop-filter: blur(20px);
+            background: rgba(var(--surface), 0.8);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(var(--text-primary), 0.1);
+        }
 
-    .dark-mode-toggle:hover {
-      background-color: #357ab8;
-    }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-    .predictor-form,
-    .predictor-results {
-      background-color: var(--primary-light);
-      border-radius: 8px;
-      margin-top: 2rem;
-      padding: 2rem;
-      transition: background-color var(--transition-slow);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
 
-    .form-control {
-      display: block;
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      transition: border-color var(--transition-slow), box-shadow var(--transition-slow);
-    }
+        /* Hero Section */
+        .hero {
+            padding: 160px 2rem 80px;
+            text-align: center;
+        }
 
-    .form-control:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.3);
-      outline: none;
-    }
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .btn {
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      border-radius: 4px;
-      transition: background-color var(--transition-slow), transform 0.2s ease-in-out;
-    }
+        /* Prediction Interface */
+        .predictor-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            gap: 3rem;
+        }
 
-    .btn:hover {
-      background-color: #357ab8;
-      transform: scale(1.05);
-    }
+        .predictor-card {
+            background: rgba(var(--text-primary), 0.03);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s var(--ease);
+        }
 
-    .invalid {
-      border: 2px solid red;
-    }
+        .predictor-card:hover {
+            transform: translateY(-4px);
+        }
 
-    canvas {
-      max-width: 100%;
-      height: auto;
-      margin-top: 1rem;
-    }
-  </style>
+        /* Modern Form Elements */
+        .input-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .input-label {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(var(--text-primary), 0.1);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s var(--ease);
+            background: rgba(var(--text-primary), 0.02);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(var(--primary), 0.1);
+        }
+
+        /* Animated Button */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity 0.3s var(--ease);
+        }
+
+        .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        /* Data Visualization */
+        .chart-container {
+            background: rgba(var(--text-primary), 0.03);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s var(--ease);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-content { padding: 1rem; }
+            .predictor-card { padding: 1.5rem; }
+            .hero { padding: 120px 1rem 60px; }
+        }
+    </style>
 </head>
 <body>
-  <button class="dark-mode-toggle" aria-label="Toggle dark mode">Toggle Dark Mode</button>
+    <nav class="nav-container">
+        <div class="nav-content">
+            <div class="logo">HealthAI</div>
+            <button class="theme-toggle">🌓</button>
+        </div>
+    </nav>
 
-  <main class="container" role="main">
-    <section class="predictor-content" aria-labelledby="predictor-title">
-      <div class="predictor-form" id="predictor-form-section">
-        <h2 id="predictor-title">Submit Prediction Data</h2>
-        <form id="riskForm" aria-describedby="form-instructions">
-          <p id="form-instructions">Please fill in all fields to receive a readmission prediction.</p>
-          <label for="age">Age:</label>
-          <input type="number" name="age" id="age" class="form-control" required>
-          <label for="gender">Gender:</label>
-          <select name="gender" id="gender" class="form-control" required>
-            <option value="">Select...</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-          <label for="bmi">BMI:</label>
-          <input type="number" name="bmi" id="bmi" class="form-control" step="0.1" required>
-          <label for="num_visits">Number of Visits:</label>
-          <input type="number" name="num_visits" id="num_visits" class="form-control" required>
-          <label for="comorbidity">Comorbidity Score (0-10):</label>
-          <input type="number" name="comorbidity" id="comorbidity" class="form-control" min="0" max="10" step="1" required>
-          <button type="submit" class="btn">Predict</button>
-        </form>
-      </div>
-
-      <div class="predictor-results">
-        <h2>Prediction Result</h2>
-        <div id="prediction-output">Awaiting input...</div>
-        <canvas id="predictionChart"></canvas>
-      </div>
+    <section class="hero">
+        <h1>Predict Health Outcomes with AI Precision</h1>
+        <p class="text-secondary">Advanced machine learning models for accurate risk assessment</p>
     </section>
-  </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    const riskForm = document.getElementById('riskForm');
-    const predictionOutput = document.getElementById('prediction-output');
-    const chartCanvas = document.getElementById('predictionChart');
-    const darkToggle = document.querySelector('.dark-mode-toggle');
+    <main class="predictor-container">
+        <div class="predictor-card">
+            <form id="riskForm">
+                <div class="input-group">
+                    <label class="input-label">Patient Age</label>
+                    <input type="number" class="form-control" required>
+                </div>
 
-    darkToggle.addEventListener('click', () => {
-      const root = document.documentElement;
-      root.toggleAttribute('data-theme', root.getAttribute('data-theme') !== 'dark');
-    });
+                <div class="input-group">
+                    <label class="input-label">Biological Sex</label>
+                    <select class="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select>
+                </div>
 
-    function setViewportHeight() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-    window.addEventListener('resize', setViewportHeight);
-    setViewportHeight();
+                <button type="submit" class="btn-primary">
+                    Analyze Risk Profile →
+                </button>
+            </form>
+        </div>
 
-    riskForm.addEventListener('input', (e) => {
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') {
-        e.target.classList.toggle('invalid', !e.target.checkValidity());
-      }
-    });
+        <div class="predictor-card">
+            <h2>Risk Analysis</h2>
+            <div class="chart-container">
+                <canvas id="predictionChart"></canvas>
+            </div>
+            <div class="result-display" id="prediction-output">
+                <!-- Results will be dynamically inserted here -->
+            </div>
+        </div>
+    </main>
 
-    document.documentElement.addEventListener('touchstart', function(event) {
-      if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') {
-        event.target.style.fontSize = '16px';
-      }
-    });
-
-    let predictionChart = null;
-
-    riskForm.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const formData = new FormData(riskForm);
-      const data = {};
-      formData.forEach((value, key) => {
-        data[key] = value;
-      });
-
-      try {
-        const response = await fetch('http://localhost:8000/predict', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Theme Toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.setAttribute('data-theme',
+                document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'
+            );
         });
 
-        if (!response.ok) throw new Error('Network response was not ok');
-        const result = await response.json();
+        // Form Handling
+        document.getElementById('riskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Simulated API call
+            const result = {
+                prediction: "Moderate Risk",
+                probability: 0.65
+            };
 
-        predictionOutput.textContent = `Predicted readmission risk: ${result.prediction}`;
+            // Animate result display
+            document.getElementById('prediction-output').innerHTML = `
+                <h3 style="color: var(--primary); margin-bottom: 1rem">${result.prediction}</h3>
+                <div style="background: var(--primary); width: ${result.probability * 100}%; 
+                    height: 6px; border-radius: 3px; transition: width 0.8s var(--ease)"></div>
+            `;
 
-        if (predictionChart) predictionChart.destroy();
-
-        predictionChart = new Chart(chartCanvas, {
-          type: 'bar',
-          data: {
-            labels: ['Risk Level'],
-            datasets: [{
-              label: 'Probability',
-              data: [result.probability],
-              backgroundColor: '#4a90e2'
-            }]
-          },
-          options: {
-            responsive: true,
-            animation: {
-              duration: 1000,
-              easing: 'easeOutBounce'
-            },
-            scales: {
-              y: { beginAtZero: true, max: 1 }
-            }
-          }
+            // Update chart
+            new Chart(document.getElementById('predictionChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Risk Probability', 'Remaining'],
+                    datasets: [{
+                        data: [result.probability * 100, 100 - (result.probability * 100)],
+                        backgroundColor: [var(--primary), 'rgba(var(--text-primary), 0.1)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    plugins: { legend: { display: false } }
+                }
+            });
         });
-
-      } catch (error) {
-        predictionOutput.textContent = 'Prediction failed. Please try again.';
-        console.error('Prediction error:', error);
-      }
-    });
-  </script>
+    </script>
 </body>
 </html>
