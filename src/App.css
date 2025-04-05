@@ -1,8 +1,16 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0;
   text-align: center;
+  width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .logo {
@@ -39,4 +47,111 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Custom animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 5px rgba(56, 189, 248, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(56, 189, 248, 0.5);
+  }
+}
+
+/* Medical Dashboard Custom Styles */
+.risk-gauge {
+  height: 200px;
+  position: relative;
+}
+
+.risk-gauge-high {
+  @apply text-red-500;
+}
+
+.risk-gauge-medium {
+  @apply text-amber-500;
+}
+
+.risk-gauge-low {
+  @apply text-green-500;
+}
+
+/* Button hover effects */
+button {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Card hover effects */
+.card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Glassmorphism effect */
+.glassmorphism {
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Gradual highlighting for text */
+.highlight-text {
+  background-image: linear-gradient(90deg, rgba(59, 130, 246, 0.3), transparent);
+  background-size: 200% 100%;
+  background-position: 100% 0;
+  transition: background-position 0.5s;
+}
+
+.highlight-text:hover {
+  background-position: 0 0;
+}
+
+/* Smooth page transitions */
+.page-transition-enter {
+  opacity: 0;
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+/* Progress animation */
+.progress-animate {
+  animation: progress-fill 1s forwards ease-out;
+}
+
+@keyframes progress-fill {
+  from { width: 0%; }
+  to { width: 100%; }
 }
