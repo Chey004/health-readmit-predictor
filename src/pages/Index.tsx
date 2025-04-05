@@ -28,7 +28,7 @@ const Index = () => {
       toast({
         title: "Risk Assessment Complete",
         description: `Patient risk score: ${Math.round(score * 100)}%`,
-        variant: score > 0.7 ? "destructive" : score > 0.3 ? "default" : "success",
+        variant: score > 0.7 ? "destructive" : "default",
       });
     }, 1200);
   };
