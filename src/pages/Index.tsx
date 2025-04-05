@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import PatientForm from '@/components/PatientForm';
 import RiskDisplay from '@/components/RiskDisplay';
-import DataTable from '@/components/DataTable';
 import FeatureImportance from '@/components/FeatureImportance';
 import InfoCard from '@/components/InfoCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -64,12 +63,6 @@ const Index = () => {
                 className="relative data-[state=active]:after:content-[''] data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:h-0.5 data-[state=active]:after:w-full data-[state=active]:after:bg-primary data-[state=active]:after:animate-pulse"
               >
                 Risk Assessment
-              </TabsTrigger>
-              <TabsTrigger 
-                value="data"
-                className="relative data-[state=active]:after:content-[''] data-[state=active]:after:absolute data-[state=active]:after:bottom-0 data-[state=active]:after:left-0 data-[state=active]:after:h-0.5 data-[state=active]:after:w-full data-[state=active]:after:bg-primary data-[state=active]:after:animate-pulse"
-              >
-                Patient Data
               </TabsTrigger>
               <TabsTrigger 
                 value="model"
@@ -170,21 +163,6 @@ const Index = () => {
                 </InfoCard>
               </motion.div>
             )}
-          </TabsContent>
-
-          <TabsContent value="data" className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <InfoCard 
-                title="Recent Patient Assessments" 
-                description="Historical risk assessments for comparison"
-              >
-                <DataTable patients={samplePatients} />
-              </InfoCard>
-            </motion.div>
           </TabsContent>
 
           <TabsContent value="model" className="space-y-6">
