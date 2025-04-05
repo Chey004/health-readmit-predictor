@@ -148,7 +148,11 @@
 
     darkToggle.addEventListener('click', () => {
       const root = document.documentElement;
-      root.toggleAttribute('data-theme');
+      if (root.getAttribute('data-theme') === 'dark') {
+        root.removeAttribute('data-theme');
+      } else {
+        root.setAttribute('data-theme', 'dark');
+      }
     });
 
     function setViewportHeight() {
