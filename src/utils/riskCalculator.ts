@@ -26,10 +26,18 @@ export function calculateRiskScore(patientData: Partial<Patient>): number {
     else if (patientData.lengthOfStay > 2) riskScore += 0.04;
   }
   
-  // Comorbidities
+  // Comorbidities - Original conditions
   if (patientData.hasHypertension) riskScore += 0.05;
   if (patientData.hasDiabetes) riskScore += 0.07;
   if (patientData.hasHeartDisease) riskScore += 0.12;
+  
+  // Additional comorbidities
+  if (patientData.hasCOPD) riskScore += 0.09;
+  if (patientData.hasAsthma) riskScore += 0.06;
+  if (patientData.hasKidneyDisease) riskScore += 0.11;
+  if (patientData.hasLiverDisease) riskScore += 0.10;
+  if (patientData.hasCancer) riskScore += 0.14;
+  if (patientData.hasStroke) riskScore += 0.13;
   
   // Medication burden (polypharmacy)
   if (patientData.medicationCount) {
@@ -47,6 +55,24 @@ export function calculateRiskScore(patientData: Partial<Patient>): number {
   if (patientData.bmi) {
     if (patientData.bmi > 30) riskScore += 0.05;
     else if (patientData.bmi < 18.5) riskScore += 0.07;
+  }
+  
+  // Multiple comorbidities increase risk exponentially
+  const comorbidityCount = [
+    patientData.hasHypertension, 
+    patientData.hasDiabetes, 
+    patientData.hasHeartDisease,
+    patientData.hasCOPD,
+    patientData.hasAsthma,
+    patientData.hasKidneyDisease,
+    patientData.hasLiverDisease,
+    patientData.hasCancer,
+    patientData.hasStroke
+  ].filter(Boolean).length;
+  
+  // Add additional risk for multiple comorbidities
+  if (comorbidityCount > 3) {
+    riskScore += 0.05 * (comorbidityCount - 3);
   }
   
   // Cap the maximum risk at 0.95 (95%)

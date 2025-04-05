@@ -10,6 +10,12 @@ export type Patient = {
   hasHypertension: boolean;
   hasDiabetes: boolean;
   hasHeartDisease: boolean;
+  hasCOPD: boolean;
+  hasAsthma: boolean;
+  hasKidneyDisease: boolean;
+  hasLiverDisease: boolean;
+  hasCancer: boolean;
+  hasStroke: boolean;
   medicationCount: number;
   bmi: number;
   hba1c?: number;
@@ -30,6 +36,12 @@ export const samplePatients: Patient[] = [
     hasHypertension: true,
     hasDiabetes: true,
     hasHeartDisease: true,
+    hasCOPD: false,
+    hasAsthma: false,
+    hasKidneyDisease: false,
+    hasLiverDisease: false,
+    hasCancer: false,
+    hasStroke: false,
     medicationCount: 7,
     bmi: 29.4,
     lvef: 35,
@@ -46,6 +58,12 @@ export const samplePatients: Patient[] = [
     hasHypertension: true,
     hasDiabetes: true,
     hasHeartDisease: false,
+    hasCOPD: false,
+    hasAsthma: false,
+    hasKidneyDisease: true,
+    hasLiverDisease: false,
+    hasCancer: false,
+    hasStroke: false,
     medicationCount: 5,
     bmi: 31.2,
     hba1c: 8.1,
@@ -62,6 +80,12 @@ export const samplePatients: Patient[] = [
     hasHypertension: true,
     hasDiabetes: false,
     hasHeartDisease: true,
+    hasCOPD: true,
+    hasAsthma: false,
+    hasKidneyDisease: false,
+    hasLiverDisease: false,
+    hasCancer: false,
+    hasStroke: true,
     medicationCount: 6,
     bmi: 24.8,
     egfr: 45,
@@ -78,6 +102,12 @@ export const samplePatients: Patient[] = [
     hasHypertension: false,
     hasDiabetes: true,
     hasHeartDisease: false,
+    hasCOPD: false,
+    hasAsthma: true,
+    hasKidneyDisease: false,
+    hasLiverDisease: false,
+    hasCancer: false,
+    hasStroke: false,
     medicationCount: 3,
     bmi: 26.1,
     hba1c: 7.2,
@@ -94,6 +124,12 @@ export const samplePatients: Patient[] = [
     hasHypertension: true,
     hasDiabetes: true,
     hasHeartDisease: true,
+    hasCOPD: false,
+    hasAsthma: false,
+    hasKidneyDisease: true,
+    hasLiverDisease: false,
+    hasCancer: false,
+    hasStroke: false,
     medicationCount: 8,
     bmi: 32.5,
     lvef: 30,
