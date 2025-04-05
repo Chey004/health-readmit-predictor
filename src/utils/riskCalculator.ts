@@ -7,21 +7,25 @@ export function calculateRiskScore(patientData: Partial<Patient>): number {
   // Base risk starts at 0.1 (10%)
   let riskScore = 0.1;
   
-  // Age factor (older patients have higher risk)
+  // Age factor (older patients have higher risk) - improved gradient
   if (patientData.age) {
-    if (patientData.age > 75) riskScore += 0.15;
-    else if (patientData.age > 65) riskScore += 0.1;
+    if (patientData.age > 85) riskScore += 0.20;
+    else if (patientData.age > 75) riskScore += 0.15;
+    else if (patientData.age > 65) riskScore += 0.10;
     else if (patientData.age > 55) riskScore += 0.05;
+    else if (patientData.age > 45) riskScore += 0.03;
   }
   
-  // Previous admissions (strong predictor)
+  // Previous admissions (strong predictor) - improved weighting
   if (patientData.previousAdmissions !== undefined) {
-    riskScore += patientData.previousAdmissions * 0.07;
+    // Exponential risk increase for patients with multiple admissions
+    riskScore += 0.05 * Math.pow(1.2, patientData.previousAdmissions);
   }
   
   // Length of stay (longer stays indicate more complex cases)
   if (patientData.lengthOfStay) {
-    if (patientData.lengthOfStay > 7) riskScore += 0.15;
+    if (patientData.lengthOfStay > 14) riskScore += 0.20;
+    else if (patientData.lengthOfStay > 7) riskScore += 0.15;
     else if (patientData.lengthOfStay > 4) riskScore += 0.08;
     else if (patientData.lengthOfStay > 2) riskScore += 0.04;
   }
@@ -39,21 +43,40 @@ export function calculateRiskScore(patientData: Partial<Patient>): number {
   if (patientData.hasCancer) riskScore += 0.14;
   if (patientData.hasStroke) riskScore += 0.13;
   
-  // Medication burden (polypharmacy)
+  // Medication burden (polypharmacy) - improved gradient
   if (patientData.medicationCount) {
-    if (patientData.medicationCount > 8) riskScore += 0.1;
+    if (patientData.medicationCount > 10) riskScore += 0.15;
+    else if (patientData.medicationCount > 8) riskScore += 0.10;
     else if (patientData.medicationCount > 5) riskScore += 0.05;
     else if (patientData.medicationCount > 3) riskScore += 0.03;
   }
   
-  // Disease-specific indicators
-  if (patientData.hba1c && patientData.hba1c > 7.5) riskScore += 0.08;
-  if (patientData.egfr && patientData.egfr < 60) riskScore += 0.1;
-  if (patientData.lvef && patientData.lvef < 40) riskScore += 0.15;
+  // Disease-specific indicators - improved sensitivity
+  if (patientData.hba1c) {
+    if (patientData.hba1c > 9.0) riskScore += 0.12;
+    else if (patientData.hba1c > 8.0) riskScore += 0.10;
+    else if (patientData.hba1c > 7.0) riskScore += 0.06;
+    else if (patientData.hba1c > 6.5) riskScore += 0.03;
+  }
+  
+  if (patientData.egfr) {
+    if (patientData.egfr < 30) riskScore += 0.18;
+    else if (patientData.egfr < 45) riskScore += 0.13;
+    else if (patientData.egfr < 60) riskScore += 0.08;
+  }
+  
+  if (patientData.lvef) {
+    if (patientData.lvef < 25) riskScore += 0.20;
+    else if (patientData.lvef < 35) riskScore += 0.15;
+    else if (patientData.lvef < 40) riskScore += 0.10;
+  }
   
   // BMI (both high and low can be risk factors)
   if (patientData.bmi) {
-    if (patientData.bmi > 30) riskScore += 0.05;
+    if (patientData.bmi > 40) riskScore += 0.10;
+    else if (patientData.bmi > 35) riskScore += 0.08;
+    else if (patientData.bmi > 30) riskScore += 0.05;
+    else if (patientData.bmi < 16) riskScore += 0.12;
     else if (patientData.bmi < 18.5) riskScore += 0.07;
   }
   
@@ -70,9 +93,28 @@ export function calculateRiskScore(patientData: Partial<Patient>): number {
     patientData.hasStroke
   ].filter(Boolean).length;
   
-  // Add additional risk for multiple comorbidities
+  // Add additional risk for multiple comorbidities with improved weighting
   if (comorbidityCount > 3) {
-    riskScore += 0.05 * (comorbidityCount - 3);
+    // More progressive scaling for multiple conditions
+    // The more comorbidities, the greater the multiplicative effect
+    const multiplicativeFactor = 1.0 + (comorbidityCount - 3) * 0.08;
+    riskScore = riskScore * multiplicativeFactor;
+  }
+  
+  // Gender factor (statistical correlation based on research)
+  if (patientData.gender === 'Male' && patientData.age && patientData.age > 65) {
+    riskScore += 0.03; // Slight increase for elderly males
+  }
+  
+  // Interactions between conditions (synergistic effects)
+  // Diabetes + Kidney Disease has worse outcomes than each separately
+  if (patientData.hasDiabetes && patientData.hasKidneyDisease) {
+    riskScore += 0.05;
+  }
+  
+  // Heart Disease + COPD has worse outcomes
+  if (patientData.hasHeartDisease && patientData.hasCOPD) {
+    riskScore += 0.06;
   }
   
   // Cap the maximum risk at 0.95 (95%)
