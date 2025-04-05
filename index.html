@@ -1,34 +1,773 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Health Readmit Predictor</title>
-    <meta name="description" content="A predictive tool to analyze hospital readmission risks using health data insights." />
-    <meta name="author" content="Chethan Vagvala" />
-    <!-- Favicon -->
-    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Health Readmit Predictor" />
-    <meta property="og:description" content="Predict hospital readmission risks with AI-powered health analytics." />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="assets/opengraph-image.png" />
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@chethan_vagvala" />
-    <meta name="twitter:image" content="assets/opengraph-image.png" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Readmit Predictor</title>
+  <meta name="description" content="A predictive tool to analyze hospital readmission risks using health data insights." />
+  <meta name="author" content="Chethan Vagvala" />
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Health Readmit Predictor" />
+  <meta property="og:description" content="Predict hospital readmission risks with AI-powered health analytics." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/opengraph-image.png" />
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@chethan_vagvala" />
+  <meta name="twitter:image" content="assets/opengraph-image.png" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3498db;
+      --primary-dark: #2980b9;
+      --secondary: #2ecc71;
+      --danger: #e74c3c;
+      --warning: #f39c12;
+      --light: #f5f7fa;
+      --dark: #2c3e50;
+      --text: #34495e;
+      --text-light: #7f8c8d;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
     
-    <!-- If you want to display icons, place them in the body instead -->
-    <div class="icons" style="display: none;">
-      <img width="16" height="16" src="https://img.icons8.com/ios-filled/32/heart-with-pulse--v2.png" alt="heart-pulse"/>
-      <img width="16" height="16" src="https://img.icons8.com/color-glass/48/security-checked--v2.png" alt="security-checked"/>
-      <img width="16" height="16" src="https://img.icons8.com/stickers/32/zoom-in--v2.png" alt="zoom-in"/>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    header {
+      background: white;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 24px;
+    }
+    
+    .logo-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      font-size: 20px;
+    }
+    
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+    }
+    
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    nav a:hover {
+      color: var(--primary);
+    }
+    
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--primary);
+      transition: var(--transition);
+    }
+    
+    nav a:hover::after {
+      width: 100%;
+    }
+    
+    .hero {
+      padding: 80px 0;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+    }
+    
+    .hero-content {
+      flex: 1;
+    }
+    
+    .hero-title {
+      font-size: 48px;
+      line-height: 1.2;
+      margin-bottom: 24px;
+      color: var(--dark);
+    }
+    
+    .hero-title span {
+      color: var(--primary);
+    }
+    
+    .hero-description {
+      font-size: 18px;
+      margin-bottom: 40px;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    .hero-image {
+      flex: 1;
+      position: relative;
+    }
+    
+    .hero-img {
+      width: 100%;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+      margin-left: 16px;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--light);
+      color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+    
+    .features {
+      padding: 80px 0;
+      background: white;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .section-title {
+      font-size: 36px;
+      margin-bottom: 16px;
+      color: var(--dark);
+    }
+    
+    .section-description {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--text-light);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 30px;
+      transition: var(--transition);
+      border-bottom: 4px solid transparent;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow);
+      border-bottom: 4px solid var(--primary);
+    }
+    
+    .feature-icon {
+      font-size: 36px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background: rgba(52, 152, 219, 0.1);
+      border-radius: 50%;
+    }
+    
+    .feature-title {
+      font-size: 22px;
+      margin-bottom: 15px;
+    }
+    
+    .feature-description {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    .predictor {
+      padding: 80px 0;
+    }
+    
+    .predictor-content {
+      display: flex;
+      gap: 60px;
+      align-items: center;
+    }
+    
+    .predictor-form {
+      flex: 1;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    
+    .form-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .form-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+    }
+    
+    .form-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2334495e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+    }
+    
+    .predictor-results {
+      flex: 1;
+      padding: 40px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    
+    .results-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: var(--dark);
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .results-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--secondary);
+    }
+    
+    .risk-meter {
+      margin: 30px 0;
+      height: 20px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .risk-level {
+      height: 100%;
+      width: 65%;
+      background: linear-gradient(90deg, var(--secondary) 0%, var(--warning) 50%, var(--danger) 100%);
+      border-radius: 10px;
+      transition: width 1s ease;
+    }
+    
+    .risk-percentage {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      margin: 15px 0;
+    }
+    
+    .risk-label {
+      text-align: center;
+      font-size: 18px;
+      color: var(--warning);
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+    
+    .results-factors {
+      margin-top: 30px;
+    }
+    
+    .factor-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .factor-name {
+      font-weight: 500;
+    }
+    
+    .factor-impact {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .impact-high {
+      color: var(--danger);
+    }
+    
+    .impact-medium {
+      color: var(--warning);
+    }
+    
+    .impact-low {
+      color: var(--secondary);
+    }
+    
+    footer {
+      background: var(--dark);
+      color: white;
+      padding: 40px 0;
+    }
+    
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+    
+    .footer-section {
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .footer-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: var(--primary);
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .footer-links a {
+      color: #bdc3c7;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      transition: var(--transition);
+    }
+    
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+    
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #bdc3c7;
+    }
+    
+    @media (max-width: 992px) {
+      .hero, .predictor-content {
+        flex-direction: column;
+      }
+      
+      .hero-image {
+        order: -1;
+      }
+      
+      .hero-img {
+        max-width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      nav ul {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .section-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <i class="fa-solid fa-heart-pulse"></i>
+        </div>
+        Health Readmit Predictor
+      </a>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#predictor">Predictor</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
     </div>
-  </body>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Advanced <span>Healthcare Analytics</span> to Reduce Readmission Risks</h1>
+        <p class="hero-description">
+          Our AI-powered tool helps healthcare providers identify patients at risk of readmission, 
+          enabling preventive interventions and improving patient outcomes.
+        </p>
+        <div>
+          <a href="#predictor" class="btn">
+            <i class="fa-solid fa-calculator"></i> Try the Predictor
+          </a>
+          <a href="#about" class="btn btn-secondary">
+            <i class="fa-solid fa-circle-info"></i> Learn More
+          </a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="/api/placeholder/600/400" alt="Health analytics dashboard" class="hero-img">
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Key Features</h2>
+        <p class="section-description">
+          Our comprehensive readmission risk prediction tool uses advanced analytics to help healthcare providers make data-driven decisions.
+        </p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Predictive Analytics</h3>
+          <p class="feature-description">
+            Leverage machine learning algorithms to predict patient readmission risk with high accuracy.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+          <h3 class="feature-title">Clinical Insights</h3>
+          <p class="feature-description">
+            Gain valuable insights into key clinical factors influencing readmission rates.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fa-solid fa-file-medical"></i>
+          </div>
+          <h3 class="feature-title">Detailed Reports</h3>
+          <p class="feature-description">
+            Generate comprehensive reports and visualizations for effective decision making.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="predictor" id="predictor">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Readmission Risk Predictor</h2>
+        <p class="section-description">
+          Enter patient data to get an instant assessment of readmission risk along with key contributing factors.
+        </p>
+      </div>
+      <div class="predictor-content">
+        <div class="predictor-form">
+          <h3 class="form-title">Patient Data Input</h3>
+          <form id="prediction-form">
+            <div class="form-group">
+              <label for="age" class="form-label">Age</label>
+              <input type="number" id="age" class="form-control" placeholder="Enter patient age" required>
+            </div>
+            <div class="form-group">
+              <label for="gender" class="form-label">Gender</label>
+              <select id="gender" class="form-control form-select" required>
+                <option value="" selected disabled>Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="diagnosis" class="form-label">Primary Diagnosis</label>
+              <select id="diagnosis" class="form-control form-select" required>
+                <option value="" selected disabled>Select diagnosis</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="heart_failure">Heart Failure</option>
+                <option value="pneumonia">Pneumonia</option>
+                <option value="copd">COPD</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="los" class="form-label">Length of Stay (days)</label>
+              <input type="number" id="los" class="form-control" placeholder="Enter length of stay" required>
+            </div>
+            <div class="form-group">
+              <label for="comorbidities" class="form-label">Number of Comorbidities</label>
+              <input type="number" id="comorbidities" class="form-control" placeholder="Enter number of comorbidities" required>
+            </div>
+            <button type="submit" class="btn">
+              <i class="fa-solid fa-calculator"></i> Calculate Risk
+            </button>
+          </form>
+        </div>
+        <div class="predictor-results">
+          <h3 class="results-title">Readmission Risk Assessment</h3>
+          <p>Based on the provided patient data, here is the readmission risk assessment:</p>
+          
+          <div class="risk-meter">
+            <div class="risk-level"></div>
+          </div>
+          <div class="risk-percentage">65%</div>
+          <div class="risk-label">Moderate to High Risk</div>
+          
+          <p>This patient has a moderate to high risk of readmission within 30 days of discharge.</p>
+          
+          <div class="results-factors">
+            <h4>Contributing Factors:</h4>
+            <div class="factor-item">
+              <span class="factor-name">Length of Stay</span>
+              <span class="factor-impact impact-high">High Impact <i class="fa-solid fa-circle-exclamation"></i></span>
+            </div>
+            <div class="factor-item">
+              <span class="factor-name">Primary Diagnosis</span>
+              <span class="factor-impact impact-medium">Medium Impact <i class="fa-solid fa-circle-info"></i></span>
+            </div>
+            <div class="factor-item">
+              <span class="factor-name">Number of Comorbidities</span>
+              <span class="factor-impact impact-high">High Impact <i class="fa-solid fa-circle-exclamation"></i></span>
+            </div>
+            <div class="factor-item">
+              <span class="factor-name">Age</span>
+              <span class="factor-impact impact-low">Low Impact <i class="fa-solid fa-circle-check"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h4 class="footer-title">Health Readmit Predictor</h4>
+          <p>Advanced analytics for healthcare providers to reduce hospital readmissions and improve patient outcomes.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-link"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-title">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#predictor">Predictor</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-title">Contact Info</h4>
+          <ul class="footer-links">
+            <li><i class="fa-solid fa-envelope"></i> info@healthreadit.com</li>
+            <li><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</li>
+            <li><i class="fa-solid fa-location-dot"></i> 123 Medical Center Dr, Health City</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        &copy; 2025 Health Readmit Predictor. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  <script type="module" src="/src/main.tsx"></script>
+  <script>
+    // Simple form handling
+    document.getElementById('prediction-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // In a real application, this would send the data to a backend
+      // For demo purposes, we're just showing the results section
+      
+      // Animation for the risk meter
+      const riskLevel = document.querySelector('.risk-level');
+      riskLevel.style.width = '65%';
+    });
+  </script>
+</body>
 </html>
