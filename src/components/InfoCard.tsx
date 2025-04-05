@@ -12,12 +12,12 @@ interface InfoCardProps {
 
 const InfoCard = ({ title, description, className, children }: InfoCardProps) => {
   return (
-    <Card className={cn("h-full", className)}>
+    <Card className={cn("h-full transition-all duration-200 hover:shadow-md hover:border-primary/20 hover:bg-card/80", className)}>
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-semibold">{title}</CardTitle>
-        {description && <CardDescription>{description}</CardDescription>}
+        <CardTitle className="text-xl font-semibold text-primary-foreground">{title}</CardTitle>
+        {description && <CardDescription className="text-muted-foreground">{description}</CardDescription>}
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="relative">{children}</CardContent>
     </Card>
   );
 };
