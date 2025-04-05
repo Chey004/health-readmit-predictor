@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import PatientForm from '@/components/PatientForm';
-import RiskDisplay from '@/components/risk/RiskDisplay';
+import InteractiveRiskDisplay from '@/components/risk/InteractiveRiskDisplay';
 import FeatureImportanceChart from '@/components/FeatureImportanceChart';
 import ModelMetricsCard from '@/components/ModelMetricsCard';
 import ModelBadge from '@/components/ModelBadge';
@@ -16,10 +15,12 @@ const Index = () => {
   const [riskScore, setRiskScore] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState('calculator');
   const [isLoading, setIsLoading] = useState(false);
+  const [patientData, setPatientData] = useState<any>(null);
   const { toast } = useToast();
   
-  const handleCalculateRisk = (score: number) => {
+  const handleCalculateRisk = (score: number, data: any) => {
     setIsLoading(true);
+    setPatientData(data);
     
     // Simulate calculation delay to provide better UX feedback
     setTimeout(() => {
@@ -161,7 +162,7 @@ const Index = () => {
                   title="Readmission Risk Assessment" 
                   description="Patient's 30-day readmission risk prediction"
                 >
-                  <RiskDisplay riskScore={riskScore} />
+                  <InteractiveRiskDisplay riskScore={riskScore} patientData={patientData} />
                 </InfoCard>
               </motion.div>
             )}
