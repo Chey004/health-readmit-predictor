@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import PatientForm from '@/components/PatientForm';
 import RiskDisplay from '@/components/RiskDisplay';
-import FeatureImportance from '@/components/FeatureImportance';
+import FeatureImportanceChart from '@/components/FeatureImportanceChart';
+import ModelMetricsCard from '@/components/ModelMetricsCard';
+import ModelBadge from '@/components/ModelBadge';
 import InfoCard from '@/components/InfoCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { samplePatients, riskFactors } from '@/data/sampleData';
@@ -166,88 +168,117 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="model" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <motion.div 
-                className="lg:col-span-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center mb-8"
+            >
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Model Insights & Performance
+              </h2>
+              <p className="text-slate-600 mt-2">Explore the machine learning model driving predictions</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 gap-6">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
               >
                 <InfoCard 
                   title="Feature Importance" 
-                  description="Relative importance of predictive factors"
+                  description="The relative impact of each factor on readmission risk prediction"
+                  className="overflow-visible"
                 >
-                  <div className="h-[400px] w-full p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-inner border border-slate-100">
-                    <FeatureImportance data={riskFactors} />
+                  <div className="h-[450px] w-full p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-inner border border-slate-100">
+                    <FeatureImportanceChart data={riskFactors} />
                   </div>
                 </InfoCard>
               </motion.div>
               
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                <InfoCard 
-                  title="Model Information" 
-                  description="Technical details about the prediction model"
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+                <motion.div
+                  className="lg:col-span-2"
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
                 >
-                  <div className="space-y-4 p-3">
-                    <motion.div 
-                      className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200 shadow-sm"
-                      whileHover={{ y: -3, boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.1)' }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <p className="font-semibold text-blue-800">Algorithm</p>
-                      <p className="text-sm">Gradient Boosted Decision Trees (XGBoost)</p>
-                    </motion.div>
+                  <InfoCard 
+                    title="Model Performance" 
+                    description="Key metrics measuring predictive accuracy"
+                  >
+                    <div className="p-4">
+                      <ModelMetricsCard />
+                    </div>
+                    
+                    <div className="mt-6 p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-100">
+                      <h3 className="text-lg font-semibold text-blue-800 mb-3">How to Interpret These Metrics</h3>
+                      <ul className="space-y-3 text-sm">
+                        <motion.li 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.4 }}
+                        >
+                          <div className="h-6 w-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center mr-2 mt-0.5 font-bold">1</div>
+                          <p><span className="font-semibold">AUC-ROC (0.82):</span> The model can correctly distinguish between readmission and non-readmission cases 82% of the time.</p>
+                        </motion.li>
+                        <motion.li 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.5 }}
+                        >
+                          <div className="h-6 w-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mr-2 mt-0.5 font-bold">2</div>
+                          <p><span className="font-semibold">Sensitivity (0.76):</span> The model correctly identifies 76% of patients who will be readmitted.</p>
+                        </motion.li>
+                        <motion.li 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.6 }}
+                        >
+                          <div className="h-6 w-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center mr-2 mt-0.5 font-bold">3</div>
+                          <p><span className="font-semibold">Specificity (0.79):</span> The model correctly identifies 79% of patients who will not be readmitted.</p>
+                        </motion.li>
+                        <motion.li 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.7 }}
+                        >
+                          <div className="h-6 w-6 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mr-2 mt-0.5 font-bold">4</div>
+                          <p><span className="font-semibold">PPV (0.68):</span> When the model predicts readmission, it's correct 68% of the time.</p>
+                        </motion.li>
+                      </ul>
+                    </div>
+                  </InfoCard>
+                </motion.div>
+                
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                >
+                  <InfoCard 
+                    title="Model Information" 
+                    description="Technical details"
+                    className="h-full"
+                  >
+                    <ModelBadge />
                     
                     <motion.div 
-                      className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200 shadow-sm"
-                      whileHover={{ y: -3, boxShadow: '0 10px 25px -5px rgba(147, 51, 234, 0.1), 0 8px 10px -6px rgba(147, 51, 234, 0.1)' }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <p className="font-semibold text-purple-800">Training Data</p>
-                      <p className="text-sm">50,000 patient records from Medicare Claims and MIMIC-III</p>
-                    </motion.div>
-                    
-                    <motion.div 
-                      className="bg-gradient-to-br from-emerald-50 to-emerald-100 p-4 rounded-lg border border-emerald-200 shadow-sm"
-                      whileHover={{ y: -3, boxShadow: '0 10px 25px -5px rgba(16, 185, 129, 0.1), 0 8px 10px -6px rgba(16, 185, 129, 0.1)' }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <p className="font-semibold text-emerald-800">Performance Metrics</p>
-                      <div className="grid grid-cols-2 gap-3 mt-2">
-                        <div className="bg-white/80 backdrop-blur-sm p-3 rounded-md text-center shadow-sm border border-emerald-100">
-                          <p className="text-xs text-gray-500">AUC-ROC</p>
-                          <p className="font-bold text-emerald-600">0.82</p>
-                        </div>
-                        <div className="bg-white/80 backdrop-blur-sm p-3 rounded-md text-center shadow-sm border border-emerald-100">
-                          <p className="text-xs text-gray-500">Sensitivity</p>
-                          <p className="font-bold text-emerald-600">0.76</p>
-                        </div>
-                        <div className="bg-white/80 backdrop-blur-sm p-3 rounded-md text-center shadow-sm border border-emerald-100">
-                          <p className="text-xs text-gray-500">Specificity</p>
-                          <p className="font-bold text-emerald-600">0.79</p>
-                        </div>
-                        <div className="bg-white/80 backdrop-blur-sm p-3 rounded-md text-center shadow-sm border border-emerald-100">
-                          <p className="text-xs text-gray-500">PPV</p>
-                          <p className="font-bold text-emerald-600">0.68</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                    
-                    <motion.div 
-                      className="bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-lg border border-slate-200 text-center shadow-sm"
+                      className="mt-4 bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-lg border border-slate-200 text-center"
                       whileHover={{ y: -3, boxShadow: '0 10px 25px -5px rgba(100, 116, 139, 0.1), 0 8px 10px -6px rgba(100, 116, 139, 0.1)' }}
                       transition={{ duration: 0.2 }}
                     >
-                      <p className="font-semibold text-slate-700">Last Updated</p>
-                      <p className="text-sm">June 2023</p>
+                      <p className="font-semibold text-slate-700">Training Dataset</p>
+                      <p className="text-sm mt-1">50,000 patient records from Medicare Claims and MIMIC-III</p>
                     </motion.div>
-                  </div>
-                </InfoCard>
-              </motion.div>
+                  </InfoCard>
+                </motion.div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
