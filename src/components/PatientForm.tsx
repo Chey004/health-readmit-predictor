@@ -72,8 +72,8 @@ const PatientForm = ({ onCalculateRisk }: PatientFormProps) => {
 
   function onSubmit(data: FormData) {
     try {
-      const riskScore = calculateRiskScore(data);
-      onCalculateRisk(riskScore, data);
+      const riskResult = calculateRiskScore(data);
+      onCalculateRisk(riskResult.score, data); // Extract just the score
       toast({
         title: "Risk calculated successfully",
         description: "The patient's readmission risk has been calculated.",

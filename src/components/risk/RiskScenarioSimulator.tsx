@@ -30,9 +30,9 @@ const RiskScenarioSimulator = ({ initialRisk, patientData, onRiskChange }: RiskS
   
   // Recalculate risk whenever simulated data changes
   useEffect(() => {
-    const newRisk = calculateRiskScore(simulatedData);
-    setSimulatedRisk(newRisk);
-    onRiskChange(newRisk);
+    const riskResult = calculateRiskScore(simulatedData);
+    setSimulatedRisk(riskResult.score); // Extract just the score
+    onRiskChange(riskResult.score); // Pass just the score to the parent
   }, [simulatedData, onRiskChange]);
 
   const riskDifference = originalRisk - simulatedRisk;

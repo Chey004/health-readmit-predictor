@@ -1,11 +1,7 @@
-
 import { Patient } from "@/data/sampleData";
 
 // Advanced risk calculation model with PROMs integration and explainability
-export function calculateRiskScore(patientData: Partial<Patient>): { 
-  score: number; 
-  factors: Array<{ name: string; contribution: number; description: string }>;
-} {
+export function calculateRiskScore(patientData: Partial<Patient>) {
   // Base risk starts at 0.1 (10%)
   let riskScore = 0.1;
   
@@ -239,7 +235,7 @@ export function calculateRiskScore(patientData: Partial<Patient>): {
     });
   }
   
-  // Patient-Reported Outcome Measures (PROMs) - NEW
+  // Patient-Reported Outcome Measures (PROMs)
   if (patientData.selfReportedHealth) {
     let promContribution = 0;
     if (patientData.selfReportedHealth === 'Poor') promContribution = 0.12;
@@ -288,7 +284,7 @@ export function calculateRiskScore(patientData: Partial<Patient>): {
     }
   }
   
-  // Social Determinants of Health - NEW
+  // Social Determinants of Health
   if (patientData.livesAlone) {
     const socialContribution = 0.08;
     riskScore += socialContribution;

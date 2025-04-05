@@ -22,6 +22,15 @@ export type Patient = {
   egfr?: number;
   lvef?: number;
   riskScore: number;
+  // New PROM fields
+  selfReportedHealth?: 'Poor' | 'Fair' | 'Good' | 'Very Good' | 'Excellent';
+  painLevel?: number; // 0-10 scale
+  mobilityScore?: number; // 0-10 scale
+  livesAlone?: boolean;
+  transportationIssues?: boolean;
+  // For scenario simulation
+  exerciseHours?: number;
+  quitSmoking?: boolean;
 };
 
 export const samplePatients: Patient[] = [
