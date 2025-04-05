@@ -13,9 +13,13 @@
   <meta property="og:description" content="Predict hospital readmission risks with AI-powered health analytics." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/opengraph-image.png" />
+  <meta property="og:url" content="https://yourwebsite.com" />
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@chethan_vagvala" />
+  <meta name="twitter:creator" content="@chethan_vagvala" />
+  <meta name="twitter:title" content="Health Readmit Predictor" />
+  <meta name="twitter:description" content="Predict hospital readmission risks with AI-powered health analytics." />
   <meta name="twitter:image" content="assets/opengraph-image.png" />
   <!-- Google Fonts - Preconnect for performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -196,7 +200,7 @@
     }
     
     .hero-title {
-      font-size: 48px;
+      font-size: clamp(32px, 5vw, 48px);
       line-height: 1.2;
       margin-bottom: 24px;
       color: var(--dark);
@@ -225,7 +229,7 @@
     }
     
     .hero-description {
-      font-size: 18px;
+      font-size: clamp(16px, 2vw, 18px);
       margin-bottom: 40px;
       color: var(--text-light);
       line-height: 1.6;
@@ -358,7 +362,7 @@
     }
     
     .section-title {
-      font-size: 36px;
+      font-size: clamp(28px, 4vw, 36px);
       margin-bottom: 16px;
       color: var(--dark);
       position: relative;
@@ -378,7 +382,7 @@
     }
     
     .section-description {
-      font-size: 18px;
+      font-size: clamp(16px, 2vw, 18px);
       max-width: 700px;
       margin: 0 auto;
       color: var(--text-light);
@@ -974,4 +978,706 @@
     .back-to-top:hover {
       background: var(--primary-dark);
       transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(52, 152, 219,
+      box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+    }
+    
+    /* Animations */
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
+      }
+      100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+      }
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 992px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+      
+      .hero-content, .hero-image {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .pulse {
+        top: -10px;
+        right: -10px;
+        width: 60px;
+        height: 60px;
+      }
+      
+      .predictor-content {
+        flex-direction: column;
+        gap: 40px;
+      }
+      
+      .predictor-form, .predictor-results {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 15px;
+      }
+      
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 74px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        gap: 0;
+        padding: 20px 0;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+      }
+      
+      nav ul.show {
+        display: flex;
+      }
+      
+      nav ul li {
+        padding: 10px 20px;
+      }
+      
+      nav ul li:hover {
+        background: var(--light);
+      }
+      
+      .mobile-menu-toggle {
+        display: block;
+      }
+      
+      .hero {
+        padding: 60px 0;
+      }
+      
+      .hero-title {
+        font-size: 36px;
+      }
+      
+      .btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn-secondary {
+        margin-left: 0;
+      }
+      
+      .features, .predictor {
+        padding: 60px 0;
+      }
+      
+      .features::before {
+        top: -30px;
+        height: 60px;
+      }
+      
+      .section-title {
+        font-size: 28px;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        gap: 30px;
+      }
+      
+      .footer-section {
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: 28px;
+      }
+      
+      .hero-description {
+        font-size: 16px;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .feature-card {
+        padding: 20px;
+      }
+      
+      .predictor-form, .predictor-results {
+        padding: 30px 20px;
+      }
+      
+      .form-title, .results-title {
+        font-size: 20px;
+      }
+      
+      .risk-percentage {
+        font-size: 24px;
+      }
+    }
+    
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        color: black;
+      }
+      
+      header, footer, .back-to-top {
+        display: none;
+      }
+      
+      .container {
+        padding: 0;
+      }
+      
+      .hero, .features, .predictor {
+        padding: 20px 0;
+      }
+      
+      .hero-image, .pulse, .btn-group, .features::before {
+        display: none;
+      }
+      
+      .predictor-form:hover, .predictor-results:hover {
+        box-shadow: none;
+      }
+      
+      .risk-meter {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div class="container">
+      <div class="nav-container">
+        <a href="#" class="logo">
+          <span class="logo-icon">
+            <i class="fas fa-heartbeat"></i>
+          </span>
+          <span>HealthReadmit</span>
+        </a>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+        
+        <nav>
+          <ul id="navMenu">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#predictor">Predictor</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Reduce Hospital <span>Readmissions</span> with AI</h1>
+          <p class="hero-description">
+            Our predictive analytics tool helps healthcare providers identify high-risk patients 
+            and implement targeted interventions to reduce preventable readmissions.
+          </p>
+          <div class="btn-group">
+            <a href="#predictor" class="btn">
+              Try Predictor <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="#features" class="btn btn-secondary">
+              Learn More <i class="fas fa-book-open"></i>
+            </a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="assets/health-analytics.svg" alt="Healthcare analytics dashboard" class="hero-img">
+          <div class="pulse">
+            <i class="fas fa-chart-line"></i>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Key Features</h2>
+          <p class="section-description">
+            Our platform combines advanced machine learning with clinical expertise to deliver 
+            actionable insights for reducing hospital readmissions.
+          </p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card" style="--animation-order: 1">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="feature-title">AI-Powered Predictions</h3>
+            <p class="feature-description">
+              Our algorithms analyze hundreds of factors to accurately predict readmission risks with 85%+ accuracy.
+            </p>
+          </div>
+          
+          <div class="feature-card" style="--animation-order: 2">
+            <div class="feature-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <h3 class="feature-title">Patient Risk Stratification</h3>
+            <p class="feature-description">
+              Categorize patients into risk levels to prioritize care coordination and resources effectively.
+            </p>
+          </div>
+          
+          <div class="feature-card" style="--animation-order: 3">
+            <div class="feature-icon">
+              <i class="fas fa-chart-pie"></i>
+            </div>
+            <h3 class="feature-title">Actionable Analytics</h3>
+            <p class="feature-description">
+              Understand the key factors driving readmission risks with clear, interpretable visualizations.
+            </p>
+          </div>
+          
+          <div class="feature-card" style="--animation-order: 4">
+            <div class="feature-icon">
+              <i class="fas fa-procedures"></i>
+            </div>
+            <h3 class="feature-title">Clinical Decision Support</h3>
+            <p class="feature-description">
+              Evidence-based recommendations to guide discharge planning and post-acute care coordination.
+            </p>
+          </div>
+          
+          <div class="feature-card" style="--animation-order: 5">
+            <div class="feature-icon">
+              <i class="fas fa-exchange-alt"></i>
+            </div>
+            <h3 class="feature-title">EHR Integration</h3>
+            <p class="feature-description">
+              Seamless integration with major EHR systems to incorporate real-time patient data.
+            </p>
+          </div>
+          
+          <div class="feature-card" style="--animation-order: 6">
+            <div class="feature-icon">
+              <i class="fas fa-bell"></i>
+            </div>
+            <h3 class="feature-title">Automated Alerts</h3>
+            <p class="feature-description">
+              Real-time notifications when patient risk levels change or interventions are needed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="predictor" id="predictor">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Readmission Risk Predictor</h2>
+          <p class="section-description">
+            Enter patient information to assess their risk of hospital readmission within 30 days of discharge.
+          </p>
+        </div>
+        
+        <div class="predictor-content">
+          <form class="predictor-form" id="riskForm">
+            <h3 class="form-title">Patient Information</h3>
+            
+            <div class="form-group">
+              <label for="age" class="form-label">Age</label>
+              <input type="number" id="age" class="form-control" min="18" max="120" required>
+              <i class="fas fa-user form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="gender" class="form-label">Gender</label>
+              <select id="gender" class="form-control form-select" required>
+                <option value="" disabled selected>Select gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <i class="fas fa-venus-mars form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="condition" class="form-label">Primary Condition</label>
+              <select id="condition" class="form-control form-select" required>
+                <option value="" disabled selected>Select condition</option>
+                <option value="heart_failure">Heart Failure</option>
+                <option value="copd">COPD</option>
+                <option value="pneumonia">Pneumonia</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="sepsis">Sepsis</option>
+                <option value="other">Other</option>
+              </select>
+              <i class="fas fa-disease form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="comorbidities" class="form-label">Number of Comorbidities</label>
+              <input type="number" id="comorbidities" class="form-control" min="0" max="15" required>
+              <i class="fas fa-procedures form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="admissions" class="form-label">Prior Admissions (12 months)</label>
+              <input type="number" id="admissions" class="form-control" min="0" max="20" required>
+              <i class="fas fa-hospital form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="medications" class="form-label">Number of Medications</label>
+              <input type="number" id="medications" class="form-control" min="0" max="30" required>
+              <i class="fas fa-pills form-icon"></i>
+            </div>
+            
+            <div class="form-group">
+              <label for="social_support" class="form-label">Social Support</label>
+              <select id="social_support" class="form-control form-select" required>
+                <option value="" disabled selected>Select level</option>
+                <option value="strong">Strong</option>
+                <option value="moderate">Moderate</option>
+                <option value="limited">Limited</option>
+                <option value="none">None</option>
+              </select>
+              <i class="fas fa-hands-helping form-icon"></i>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%">
+              Calculate Risk <i class="fas fa-calculator"></i>
+            </button>
+          </form>
+          
+          <div class="predictor-results" id="results">
+            <h3 class="results-title">Risk Assessment</h3>
+            <p>Complete the form to calculate patient's readmission risk.</p>
+            
+            <div class="risk-container" style="display: none;">
+              <h4>30-Day Readmission Risk</h4>
+              <div class="risk-meter">
+                <div class="risk-level" id="riskLevel"></div>
+              </div>
+              <div class="risk-percentage" id="riskPercentage"></div>
+              <div class="risk-label" id="riskLabel"></div>
+              
+              <div class="results-summary" id="resultsSummary">
+                Based on our analysis, this patient has a <span id="summaryRisk"></span> risk of readmission within 30 days of discharge.
+              </div>
+              
+              <div class="results-factors">
+                <h4><i class="fas fa-chart-bar"></i> Key Risk Factors</h4>
+                <div class="factor-item" id="factor1">
+                  <span class="factor-name"><i class="fas fa-chevron-right"></i> <span class="factor-name-text">Condition Severity</span></span>
+                  <span class="factor-impact impact-high">High Impact</span>
+                </div>
+                <div class="factor-item" id="factor2">
+                  <span class="factor-name"><i class="fas fa-chevron-right"></i> <span class="factor-name-text">Medication Count</span></span>
+                  <span class="factor-impact impact-medium">Medium Impact</span>
+                </div>
+                <div class="factor-item" id="factor3">
+                  <span class="factor-name"><i class="fas fa-chevron-right"></i> <span class="factor-name-text">Prior Admissions</span></span>
+                  <span class="factor-impact impact-high">High Impact</span>
+                </div>
+                <div class="factor-item" id="factor4">
+                  <span class="factor-name"><i class="fas fa-chevron-right"></i> <span class="factor-name-text">Social Support</span></span>
+                  <span class="factor-impact impact-medium">Medium Impact</span>
+                </div>
+              </div>
+              
+              <div class="tips-container" id="tipsContainer">
+                <h4 class="tips-title"><i class="fas fa-lightbulb"></i> Recommended Interventions</h4>
+                <ul class="tips-list" id="tipsList">
+                  <li>Schedule follow-up appointment within 7 days of discharge</li>
+                  <li>Provide medication reconciliation and education</li>
+                  <li>Arrange home health services if appropriate</li>
+                  <li>Connect patient with community resources</li>
+                  <li>Implement remote monitoring if available</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3 class="footer-title">HealthReadmit</h3>
+          <p>Using AI to improve patient outcomes and reduce preventable hospital readmissions.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-section">
+          <h3 class="footer-title">Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="#"><i class="fas fa-chevron-right"></i> Home</a></li>
+            <li><a href="#features"><i class="fas fa-chevron-right"></i> Features</a></li>
+            <li><a href="#predictor"><i class="fas fa-chevron-right"></i> Predictor</a></li>
+            <li><a href="#about"><i class="fas fa-chevron-right"></i> About Us</a></li>
+            <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3 class="footer-title">Contact Us</h3>
+          <ul class="footer-links">
+            <li><a href="mailto:info@healthreadmit.com"><i class="fas fa-envelope"></i> info@healthreadmit.com</a></li>
+            <li><a href="tel:+15551234567"><i class="fas fa-phone"></i> (555) 123-4567</a></li>
+            <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Healthcare Ave, Boston, MA</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; <span id="year"></span> HealthReadmit. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <a href="#" class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+  
+  <script>
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    mobileMenuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('show');
+      mobileMenuToggle.innerHTML = navMenu.classList.contains('show') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (navMenu.classList.contains('show')) {
+          navMenu.classList.remove('show');
+          mobileMenuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+      });
+    });
+    
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+    
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
+    
+    // Set copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Risk prediction form
+    const riskForm = document.getElementById('riskForm');
+    const resultsContainer = document.querySelector('.risk-container');
+    const riskLevel = document.getElementById('riskLevel');
+    const riskPercentage = document.getElementById('riskPercentage');
+    const riskLabel = document.getElementById('riskLabel');
+    const summaryRisk = document.getElementById('summaryRisk');
+    const tipsContainer = document.getElementById('tipsContainer');
+    
+    riskForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Show loading state
+      const submitBtn = riskForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Calculating...';
+      submitBtn.disabled = true;
+      
+      // Simulate API call with timeout
+      setTimeout(() => {
+        // Get form values
+        const age = parseInt(document.getElementById('age').value);
+        const gender = document.getElementById('gender').value;
+        const condition = document.getElementById('condition').value;
+        const comorbidities = parseInt(document.getElementById('comorbidities').value);
+        const admissions = parseInt(document.getElementById('admissions').value);
+        const medications = parseInt(document.getElementById('medications').value);
+        const socialSupport = document.getElementById('social_support').value;
+        
+        // Calculate risk (simplified example)
+        let baseRisk = 0.1; // Base 10% risk
+        
+        // Age adjustment
+        if (age >= 65) baseRisk += 0.15;
+        else if (age >= 50) baseRisk += 0.1;
+        else if (age >= 30) baseRisk += 0.05;
+        
+        // Condition adjustment
+        if (condition === 'heart_failure') baseRisk += 0.2;
+        else if (condition === 'copd') baseRisk += 0.15;
+        else if (condition === 'pneumonia') baseRisk += 0.1;
+        else if (condition === 'diabetes') baseRisk += 0.08;
+        else if (condition === 'sepsis') baseRisk += 0.12;
+        
+        // Comorbidities adjustment
+        baseRisk += comorbidities * 0.03;
+        
+        // Prior admissions adjustment
+        baseRisk += admissions * 0.05;
+        
+        // Medications adjustment
+        baseRisk += medications * 0.01;
+        
+        // Social support adjustment
+        if (socialSupport === 'limited') baseRisk += 0.1;
+        else if (socialSupport === 'none') baseRisk += 0.15;
+        
+        // Cap at 95% to leave room for uncertainty
+        const finalRisk = Math.min(baseRisk, 0.95);
+        const riskPercent = Math.round(finalRisk * 100);
+        
+        // Update UI
+        resultsContainer.style.display = 'block';
+        riskLevel.style.width = `${riskPercent}%`;
+        riskPercentage.textContent = `${riskPercent}%`;
+        summaryRisk.textContent = `${riskPercent}%`;
+        
+        // Set risk label
+        let labelText, labelColor;
+        if (riskPercent >= 70) {
+          labelText = 'Very High Risk';
+          labelColor = 'var(--danger)';
+          summaryRisk.textContent += ' very high';
+        } else if (riskPercent >= 50) {
+          labelText = 'High Risk';
+          labelColor = 'var(--warning)';
+          summaryRisk.textContent += ' high';
+        } else if (riskPercent >= 30) {
+          labelText = 'Moderate Risk';
+          labelColor = 'var(--warning)';
+          summaryRisk.textContent += ' moderate';
+        } else {
+          labelText = 'Low Risk';
+          labelColor = 'var(--secondary)';
+          summaryRisk.textContent += ' low';
+        }
+        
+        riskLabel.textContent = labelText;
+        riskLabel.style.color = labelColor;
+        
+        // Update factor items (simplified example)
+        document.getElementById('factor1').querySelector('.factor-name-text').textContent = 
+          condition.charAt(0).toUpperCase() + condition.slice(1).replace('_', ' ');
+        
+        document.getElementById('factor2').querySelector('.factor-name-text').textContent = 
+          `${medications} Medications`;
+          
+        document.getElementById('factor3').querySelector('.factor-name-text').textContent = 
+          `${admissions} Prior Admission${admissions !== 1 ? 's' : ''}`;
+          
+        document.getElementById('factor4').querySelector('.factor-name-text').textContent = 
+          socialSupport.charAt(0).toUpperCase() + socialSupport.slice(1) + ' Support';
+        
+        // Show results with animations
+        document.getElementById('results').classList.add('show-result');
+        
+        // Reset button
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+        
+        // Scroll to results
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 1500);
+    });
+    
+    // Reset form when changing inputs after submission
+    riskForm.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('change', () => {
+        if (document.getElementById('results').classList.contains('show-result')) {
+          document.getElementById('results').classList.remove('show-result');
+          resultsContainer.style.display = 'none';
+          riskLevel.style.width = '0';
+          tipsContainer.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
