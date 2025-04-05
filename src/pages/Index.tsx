@@ -1,8 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from '@/components/Header';
 import PatientForm from '@/components/PatientForm';
-import RiskDisplay from '@/components/RiskDisplay';
+import RiskDisplay from '@/components/risk/RiskDisplay';
 import FeatureImportanceChart from '@/components/FeatureImportanceChart';
 import ModelMetricsCard from '@/components/ModelMetricsCard';
 import ModelBadge from '@/components/ModelBadge';
